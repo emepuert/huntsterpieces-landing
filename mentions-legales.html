@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mentions Légales - Huntsterpieces</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            background: linear-gradient(180deg, #FFF5E6 0%, #ffffff 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .legal-container {
+            max-width: 900px;
+            margin: 60px auto;
+            padding: 50px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+        }
+        
+        .legal-container h1 {
+            color: #1a4d2e;
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            font-weight: 800;
+        }
+        
+        .legal-subtitle {
+            color: #666;
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            font-weight: 400;
+        }
+        
+        .legal-container h2 {
+            color: #ff8c42;
+            font-size: 1.6rem;
+            margin-top: 50px;
+            margin-bottom: 20px;
+            font-weight: 700;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #ff8c42;
+        }
+        
+        .legal-container h3 {
+            color: #1a4d2e;
+            font-size: 1.2rem;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .legal-container p {
+            color: #333;
+            line-height: 1.9;
+            margin-bottom: 15px;
+            font-size: 1.05rem;
+        }
+        
+        .legal-container ul {
+            color: #333;
+            line-height: 1.9;
+            margin-bottom: 20px;
+            margin-left: 20px;
+            font-size: 1.05rem;
+        }
+        
+        .legal-container li {
+            margin-bottom: 10px;
+            padding-left: 10px;
+        }
+        
+        .legal-container code {
+            background: #f5f5f5;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            color: #ff8c42;
+            font-size: 0.9em;
+        }
+        
+        .legal-container strong {
+            color: #1a4d2e;
+            font-weight: 700;
+        }
+        
+        .legal-container a {
+            color: #ff8c42;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border-bottom: 2px solid transparent;
+        }
+        
+        .legal-container a:hover {
+            border-bottom-color: #ff8c42;
+        }
+        
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            margin-bottom: 30px;
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #ff8c42, #ff6b35);
+            color: white !important;
+            text-decoration: none;
+            font-weight: 600;
+            border-radius: 30px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 140, 66, 0.3);
+            border-bottom: none !important;
+        }
+        
+        .back-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 140, 66, 0.4);
+        }
+        
+        .info-box {
+            background: linear-gradient(135deg, #FFF5E6, #FFE8CC);
+            padding: 25px;
+            border-radius: 12px;
+            border-left: 5px solid #ff8c42;
+            margin: 25px 0;
+        }
+        
+        .info-box p {
+            margin-bottom: 8px;
+        }
+        
+        .info-box p:last-child {
+            margin-bottom: 0;
+        }
+        
+        .last-update {
+            font-style: italic;
+            color: #999;
+            margin-top: 50px;
+            padding-top: 25px;
+            border-top: 2px solid #f0f0f0;
+            text-align: center;
+            font-size: 0.95rem;
+        }
+        
+        .legal-footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: #999;
+        }
+        
+        .legal-footer a {
+            color: #ff8c42;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+        
+        .legal-footer a:hover {
+            color: #ff6b35;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            
+            .legal-container {
+                margin: 20px auto;
+                padding: 30px 20px;
+                border-radius: 15px;
+            }
+            
+            .legal-container h1 {
+                font-size: 2rem;
+            }
+            
+            .legal-subtitle {
+                font-size: 1rem;
+            }
+            
+            .legal-container h2 {
+                font-size: 1.4rem;
+                margin-top: 35px;
+            }
+            
+            .legal-container h3 {
+                font-size: 1.1rem;
+            }
+            
+            .legal-container p,
+            .legal-container ul {
+                font-size: 1rem;
+            }
+            
+            .back-button {
+                padding: 10px 20px;
+                font-size: 0.95rem;
+            }
+            
+            .info-box {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="legal-container">
+        <a href="index.html" class="back-button">← Retour à l'accueil</a>
+        
+        <h1>Mentions Légales</h1>
+        <p class="legal-subtitle">Informations légales concernant le site Huntsterpieces</p>
+        
+        <h2>1. Éditeur du site</h2>
+        <div class="info-box">
+            <p><strong>Nom :</strong> Dawa Tran</p>
+            <p><strong>Email :</strong> <a href="mailto:dawa.tranquangtru@gmail.com">dawa.tranquangtru@gmail.com</a></p>
+            <p><strong>Site web :</strong> Huntsterpieces</p>
+            <p><strong>Statut :</strong> Projet personnel</p>
+        </div>
+        
+        <h2>2. Hébergement</h2>
+        <p>Ce site est hébergé par <strong>Netlify, Inc.</strong></p>
+        <div class="info-box">
+            <p><strong>Netlify, Inc.</strong></p>
+            <p>44 Montgomery Street, Suite 300</p>
+            <p>San Francisco, CA 94104</p>
+            <p>États-Unis</p>
+            <p><a href="https://www.netlify.com" target="_blank" rel="noopener noreferrer">www.netlify.com</a></p>
+        </div>
+        
+        <h2>3. Propriété intellectuelle</h2>
+        <p>
+            Le projet <strong>Huntsterpieces</strong> est distribué sous licence 
+            <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener noreferrer">
+                Creative Commons BY-NC-SA 4.0
+            </a>.
+        </p>
+        <p>
+            <strong>Vous êtes libre de :</strong>
+        </p>
+        <ul>
+            <li>Partager — copier et redistribuer le matériel</li>
+            <li>Adapter — remixer, transformer et créer à partir du matériel</li>
+        </ul>
+        <p>
+            <strong>Selon les conditions suivantes :</strong>
+        </p>
+        <ul>
+            <li><strong>Attribution</strong> — Vous devez créditer l'auteur original</li>
+            <li><strong>Pas d'Utilisation Commerciale</strong> — Vous ne pouvez pas utiliser le matériel à des fins commerciales sans autorisation</li>
+            <li><strong>Partage dans les Mêmes Conditions</strong> — Si vous modifiez le matériel, vous devez le distribuer sous la même licence</li>
+        </ul>
+        <p>
+            Code source disponible sur : 
+            <a href="https://github.com/emepuert/treasure-hunt" target="_blank" rel="noopener noreferrer">
+                GitHub - emepuert/treasure-hunt
+            </a>
+        </p>
+        
+        <h2>4. Protection des données personnelles (RGPD)</h2>
+        <p>
+            Conformément au Règlement Général sur la Protection des Données (RGPD) et à la loi Informatique et Libertés, 
+            vous disposez de droits sur vos données personnelles.
+        </p>
+        
+        <h3>4.1. Données collectées</h3>
+        <p>
+            Ce site vitrine <strong>ne collecte aucune donnée personnelle</strong> directement. Aucun formulaire de contact, 
+            cookie de tracking ou outil d'analyse n'est utilisé.
+        </p>
+        <p>
+            Les seules données éventuellement collectées le sont par les hébergeurs (logs de connexion standard) 
+            conformément à leurs politiques de confidentialité respectives.
+        </p>
+        
+        <h3>4.2. Contact par email</h3>
+        <p>
+            Lorsque vous nous contactez par email, les informations que vous partagez volontairement 
+            (nom, email, message) sont utilisées uniquement pour répondre à votre demande et ne sont 
+            jamais partagées avec des tiers.
+        </p>
+        
+        <h3>4.3. Vos droits</h3>
+        <p>
+            Vous disposez d'un droit d'accès, de rectification et de suppression de vos données personnelles. 
+            Pour exercer ces droits, contactez-nous à : 
+            <a href="mailto:dawa.tranquangtru@gmail.com">dawa.tranquangtru@gmail.com</a>
+        </p>
+        
+        <h2>5. Cookies</h2>
+        <p>
+            Ce site <strong>n'utilise aucun cookie</strong> de tracking, analytique ou publicitaire.
+        </p>
+        <p>
+            La carte interactive utilise <strong>LocalStorage</strong> pour mettre en cache temporairement 
+            les points d'intérêt (POI) et améliorer les performances. Ces données sont stockées localement 
+            sur votre appareil et ne sont jamais transmises à des serveurs tiers.
+        </p>
+        <p>
+            Vous pouvez effacer ces données en vidant le cache de votre navigateur ou en utilisant la console 
+            développeur : <code>localStorage.clear()</code>
+        </p>
+        
+        <h2>6. Services tiers</h2>
+        <p>
+            Ce site utilise les services externes suivants :
+        </p>
+        <ul>
+            <li><strong>OpenStreetMap</strong> - Cartographie (Licence ODbL)</li>
+            <li><strong>Leaflet.js</strong> - Bibliothèque de carte (Licence BSD-2-Clause)</li>
+            <li><strong>Google Fonts</strong> - Polices de caractères</li>
+            <li><strong>Overpass API</strong> - Données géographiques</li>
+        </ul>
+        <p>
+            Ces services ont leurs propres politiques de confidentialité que nous vous invitons à consulter.
+        </p>
+        
+        <h2>7. Limitation de responsabilité</h2>
+        <p>
+            Ce site est fourni à titre informatif. L'éditeur s'efforce d'assurer l'exactitude des informations, 
+            mais ne peut garantir que le site soit exempt d'erreurs ou de bugs.
+        </p>
+        <p>
+            L'éditeur ne peut être tenu responsable :
+        </p>
+        <ul>
+            <li>Des dommages directs ou indirects résultant de l'accès ou de l'utilisation du site</li>
+            <li>Des interruptions de service ou dysfonctionnements techniques</li>
+            <li>Du contenu des sites externes vers lesquels ce site pourrait pointer</li>
+        </ul>
+        
+        <h2>8. Utilisation commerciale</h2>
+        <p>
+            Le projet Huntsterpieces est disponible pour :
+        </p>
+        <ul>
+            <li><strong>Achat</strong> - Acquisition complète du projet</li>
+            <li><strong>Licence commerciale</strong> - Utilisation commerciale moyennant licence</li>
+            <li><strong>Collaboration</strong> - Développement sur mesure</li>
+        </ul>
+        <p>
+            Pour toute demande commerciale, contactez : 
+            <a href="mailto:dawa.tranquangtru@gmail.com">dawa.tranquangtru@gmail.com</a>
+        </p>
+        
+        <h2>9. Droit applicable et juridiction</h2>
+        <p>
+            Les présentes mentions légales sont régies par le droit français. 
+            En cas de litige, et à défaut d'accord amiable, les tribunaux français seront seuls compétents.
+        </p>
+        
+        <h2>10. Contact</h2>
+        <p>
+            Pour toute question concernant ces mentions légales ou le site en général :
+        </p>
+        <p>
+            <strong>Email :</strong> <a href="mailto:dawa.tranquangtru@gmail.com">dawa.tranquangtru@gmail.com</a><br>
+            <strong>LinkedIn :</strong> <a href="https://www.linkedin.com/in/dawa-tran-645a60231/" target="_blank" rel="noopener noreferrer">Dawa Tran</a>
+        </p>
+        
+        <p class="last-update">
+            Dernière mise à jour : Novembre 2024
+        </p>
+    </div>
+    
+    <footer class="legal-footer">
+        <p><a href="index.html">← Retour à l'accueil</a></p>
+        <p style="margin-top: 10px;">Huntsterpieces © 2025</p>
+    </footer>
+    
+</body>
+</html>
+

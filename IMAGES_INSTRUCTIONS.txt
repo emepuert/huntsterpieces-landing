@@ -1,0 +1,87 @@
+📸 COMMENT AJOUTER TON SCREENSHOT OU TA CARTE
+═══════════════════════════════════════════════════════════
+
+🎯 OPTION 1 : Utiliser ton propre screenshot
+────────────────────────────────────────────
+
+1. Prends un beau screenshot de ton app (1920x1080px minimum)
+2. Place l'image dans le dossier : team-building-jeu-piste-main-site/
+3. Nomme-la : hero-image.jpg (ou .png)
+4. Dans style.css, ligne 23, remplace :
+   
+   background-image: url('https://images.unsplash.com/...');
+   
+   par :
+   
+   background-image: url('hero-image.jpg');
+
+═══════════════════════════════════════════════════════════
+
+🗺️ OPTION 2 : Utiliser une vraie carte interactive
+────────────────────────────────────────────────────
+
+Pour une carte de Turin par exemple :
+
+Dans style.css, ligne 23, remplace par :
+   background-image: url('https://tile.openstreetmap.org/14/8565/5918.png');
+   
+Ou pour Paris :
+   background-image: url('https://tile.openstreetmap.org/12/2048/1360.png');
+
+Ou utilise ta propre capture de carte !
+
+═══════════════════════════════════════════════════════════
+
+🎨 OPTION 3 : Gradient + Motif (style moderne)
+────────────────────────────────────────────────
+
+Dans style.css, ligne 23, remplace par :
+   background: 
+       linear-gradient(135deg, rgba(102, 126, 234, 0.9) 0%, rgba(118, 75, 162, 0.9) 100%),
+       url('data:image/svg+xml,<svg width="60" height="60" xmlns="http://www.w3.org/2000/svg"><path d="M30 0L60 30L30 60L0 30Z" fill="white" opacity="0.1"/></svg>');
+
+═══════════════════════════════════════════════════════════
+
+⚙️ RÉGLAGES DE L'EFFET PARALLAX
+────────────────────────────────────────────────
+
+Dans parallax-script.js, ligne 13 :
+   const rate = scrolled * 0.5;
+   
+- 0.5 = effet moyen (recommandé)
+- 0.3 = effet léger
+- 0.7 = effet fort
+- 1.0 = effet très fort
+
+═══════════════════════════════════════════════════════════
+
+📸 OUTILS POUR FAIRE DE BEAUX SCREENSHOTS
+────────────────────────────────────────────────
+
+1. Screely.com - Ajoute un cadre professionnel
+2. Shots.so - Mockup sur iPhone/Android
+3. Carbon.now.sh - Pour du code stylé
+4. Cleanshot X (Mac) - Capture d'écran pro
+5. ShareX (Windows) - Gratuit et puissant
+
+═══════════════════════════════════════════════════════════
+
+💡 CONSEILS POUR UNE BELLE IMAGE
+────────────────────────────────────────────────
+
+✅ Résolution : 1920x1080px minimum
+✅ Format : JPG (plus léger) ou PNG (meilleure qualité)
+✅ Poids : < 500 KB pour un chargement rapide
+✅ Luminosité : Pas trop sombre (lisibilité du texte)
+✅ Contraste : Assure-toi que le texte blanc reste lisible
+
+═══════════════════════════════════════════════════════════
+
+🚀 IMAGE ACTUELLE PAR DÉFAUT
+────────────────────────────────────────────────
+
+J'ai mis une image temporaire d'Unsplash (team building).
+Remplace-la par ton screenshot pour un impact maximal !
+
+═══════════════════════════════════════════════════════════
+
