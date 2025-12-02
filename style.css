@@ -40,74 +40,94 @@ h1, h2, h3, h4, h5, h6 {
 .hero {
     position: relative;
     color: white;
-    padding: 80px 20px;
+    padding: 0;
     text-align: center;
+    height: 100vh; /* Hauteur fixe pour éviter le débordement */
     min-height: 100vh;
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
+    flex-direction: row; /* Horizontal sur desktop */
+    justify-content: flex-start;
+    align-items: stretch;
+    overflow: hidden; /* Empêche le débordement */
 }
 
-/* Carte interactive en fond */
+
+/* Carte interactive - prend le reste de l'espace */
 #demo-map {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    position: relative;
+    flex: 1; /* Prend tout l'espace restant */
+    height: 100vh;
     z-index: 1;
-    opacity: 1; /* Pleine opacité sur desktop */
-    /* Pas de filtre sur la carte pour éviter d'affecter les contrôles */
+    opacity: 1;
+    /* Pas de filtre sur la carte */
 }
 
 /* Style personnalisé pour les tiles de la carte avec les couleurs du site */
 .custom-map-tiles {
-    filter: saturate(0.6) brightness(0.92) contrast(1.15) sepia(0.15) hue-rotate(5deg);
-    /* Teinte légèrement orange/bleutée pour matcher #FF6B35 et #1A1F3A */
+    filter: none; /* Suppression du filtre pour une carte claire */
 }
 
-/* Overlay désactivé pour voir la carte pleinement */
+/* Overlay désactivé */
 .hero-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: transparent; /* Pas d'overlay */
-    z-index: 2;
-    pointer-events: none; /* Ne bloque pas les interactions */
+    display: none; /* Pas d'overlay du tout */
 }
 
-/* Contenu hero par-dessus la carte */
+/* Contenu hero - SIDEBAR sur desktop */
 .hero-content {
     position: relative;
-    z-index: 10; /* Plus haut pour que les boutons restent cliquables */
-    max-width: 750px; /* Réduit de 900px */
-    margin: 0 auto;
-    pointer-events: none; /* Le contenu ne bloque pas la carte */
+    z-index: 10;
+    width: 450px; /* Largeur fixe pour le sidebar */
+    flex-shrink: 0;
+    pointer-events: auto;
     
-    /* Fond translucide avec marges */
-    backdrop-filter: blur(5px);
-    background: rgba(0, 78, 137, 0.9);
-    padding: 35px 30px; /* Réduit de 50px 40px */
-    border-radius: 16px; /* Réduit de 20px */
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    /* Glassmorphism moderne */
+    backdrop-filter: blur(20px) saturate(180%);
+    background: linear-gradient(135deg, rgba(0, 78, 137, 0.95) 0%, rgba(26, 31, 58, 0.92) 100%);
+    padding: 60px 40px;
+    box-shadow: 
+        4px 0 40px rgba(0, 0, 0, 0.3),
+        inset -1px 0 0 rgba(255, 255, 255, 0.1);
+    
+    /* Alignement */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center; /* Centré sur desktop */
+    align-items: center; /* Centre les éléments horizontalement */
+    
+    /* Animation d'entrée */
+    animation: slideInLeft 0.8s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Mais les boutons et textes restent cliquables */
-.hero-content h1,
-.hero-content p,
-.hero-content a,
-.hero-content div {
+@keyframes slideInLeft {
+    from {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* Tous les éléments sont cliquables */
+.hero-content * {
     pointer-events: auto;
 }
 
 /* Contrôles Leaflet visibles et fonctionnels */
 .leaflet-control-container {
-    z-index: 15; /* Au-dessus de tout pour rester accessible */
-    filter: none !important; /* S'assurer qu'aucun filtre n'est hérité */
+    z-index: 15;
+    filter: none !important;
+}
+
+/* Positionne les contrôles loin du sidebar */
+.hero .leaflet-control-container .leaflet-right {
+    right: 20px;
+}
+
+.hero .leaflet-control-container .leaflet-left {
+    left: 20px;
 }
 
 /* Personnalisation des boutons de zoom avec les couleurs du site */
@@ -204,69 +224,102 @@ h1, h2, h3, h4, h5, h6 {
     100% { transform: rotate(360deg); }
 }
 
-/* Popups épurés et modernes */
+/* Popups modernes et élégants dans le thème du site */
 .custom-popup .leaflet-popup-content-wrapper {
-    background: white;
-    border-radius: 16px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+    border-radius: 20px;
+    box-shadow: 
+        0 10px 40px rgba(0, 0, 0, 0.15),
+        0 0 0 1px rgba(0, 78, 137, 0.1);
     padding: 0 !important;
     overflow: hidden;
+    border: 3px solid transparent;
+    background-image: 
+        linear-gradient(white, white),
+        linear-gradient(135deg, var(--primary), var(--accent));
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
 }
 
 .custom-popup .leaflet-popup-content {
     margin: 0 !important;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-family: "Stack Sans Headline", -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
 .custom-popup .leaflet-popup-tip {
-    display: none;
+    background: white;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 .custom-popup .leaflet-popup-close-button {
-    color: #999 !important;
-    font-size: 20px !important;
-    font-weight: 300 !important;
-    width: 28px !important;
-    height: 28px !important;
+    background: rgba(255, 107, 53, 0.1);
+    color: var(--primary) !important;
+    font-size: 18px !important;
+    font-weight: 600 !important;
+    width: 32px !important;
+    height: 32px !important;
     padding: 0 !important;
-    top: 8px !important;
-    right: 8px !important;
-    opacity: 0.6;
-    transition: opacity 0.2s;
+    top: 12px !important;
+    right: 12px !important;
+    border-radius: 50%;
+    opacity: 1;
+    transition: all 0.3s ease;
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
 }
 
 .custom-popup .leaflet-popup-close-button:hover {
-    opacity: 1;
-    color: #333 !important;
+    background: var(--primary);
+    color: white !important;
+    transform: rotate(90deg) scale(1.1);
+    box-shadow: 0 4px 12px rgba(255, 107, 53, 0.4);
 }
 
 /* Contenu popup centré */
 .popup-clean {
-    padding: 24px 20px 20px 20px;
-    min-width: 260px;
+    padding: 28px 24px 24px 24px;
+    min-width: 280px;
     text-align: center;
+    position: relative;
 }
 
-/* Badge type d'épreuve */
+/* Badge type d'épreuve - redesigné */
 .popup-type {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 6px;
-    padding: 6px 12px;
-    border-radius: 20px;
-    font-size: 0.75rem;
-    font-weight: 600;
-    margin: 0 auto 14px auto;
+    gap: 8px;
+    padding: 10px 18px;
+    border-radius: 50px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    margin: 0 auto 18px auto;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.popup-type::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: left 0.5s;
+}
+
+.popup-type:hover::before {
+    left: 100%;
 }
 
 .popup-icon {
-    font-size: 1rem;
+    font-size: 1.2rem;
     line-height: 1;
 }
 
@@ -274,82 +327,230 @@ h1, h2, h3, h4, h5, h6 {
     line-height: 1;
 }
 
-/* Couleurs subtiles par type */
+/* Couleurs vives et modernes par type */
 .popup-type.enigma {
-    background: #FFF5F0;
-    color: var(--primary);
+    background: linear-gradient(135deg, var(--primary), #ff8354);
+    color: white;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 }
 
 .popup-type.photo {
-    background: #fff0f5;
-    color: #f5576c;
+    background: linear-gradient(135deg, #f5576c, #ff7a8a);
+    color: white;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 }
 
 .popup-type.validation {
-    background: #f0f9ff;
-    color: #00a8e8;
+    background: linear-gradient(135deg, var(--secondary), #0066b3);
+    color: white;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 }
 
 .popup-type.object {
-    background: #f0fff4;
-    color: #38d389;
+    background: linear-gradient(135deg, #38d389, #4ade80);
+    color: white;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 }
 
 .popup-type.info {
-    background: #fffbf0;
-    color: #ff9800;
+    background: linear-gradient(135deg, var(--accent), #ffc933);
+    color: var(--dark);
+    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.3);
 }
 
 /* Nom du lieu */
 .popup-location {
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     font-weight: 700;
-    color: #1a1a1a;
-    margin-bottom: 12px;
+    color: var(--secondary);
+    margin-bottom: 14px;
     line-height: 1.3;
+    font-family: "Momo Trust Display", sans-serif;
 }
 
 /* Description du challenge */
 .popup-challenge {
-    font-size: 0.9rem;
-    color: #333;
-    line-height: 1.6;
-    margin-bottom: 12px;
+    font-size: 0.95rem;
+    color: #2d3436;
+    line-height: 1.7;
+    margin-bottom: 16px;
+    padding: 0 8px;
 }
 
 /* Explication du fonctionnement */
 .popup-explanation {
-    font-size: 0.8rem;
-    color: #999;
-    line-height: 1.4;
+    font-size: 0.85rem;
+    color: #636e72;
+    line-height: 1.5;
     font-style: italic;
-    padding-top: 10px;
-    border-top: 1px solid #f0f0f0;
+    padding: 14px 12px 4px 12px;
+    border-top: 2px solid rgba(255, 107, 53, 0.1);
+    background: rgba(255, 107, 53, 0.03);
+    border-radius: 8px;
+    margin: 0 -4px -4px -4px;
+}
+
+/* Popup "Vous êtes ici !" - Style ultra moderne */
+.user-popup .leaflet-popup-content-wrapper {
+    background: linear-gradient(135deg, var(--secondary) 0%, var(--dark) 100%);
+    border: 0;
+    box-shadow: 
+        0 15px 50px rgba(0, 78, 137, 0.5),
+        0 0 0 3px rgba(247, 184, 1, 0.5),
+        0 0 20px rgba(247, 184, 1, 0.3);
+    position: relative;
+    overflow: visible;
+}
+
+/* Effet de pulse autour du popup */
+.user-popup .leaflet-popup-content-wrapper::before {
+    content: '';
+    position: absolute;
+    top: -3px;
+    left: -3px;
+    right: -3px;
+    bottom: -3px;
+    background: linear-gradient(135deg, var(--accent), var(--primary));
+    border-radius: 20px;
+    z-index: -1;
+    animation: pulse-glow 2s ease-in-out infinite;
+}
+
+@keyframes pulse-glow {
+    0%, 100% {
+        opacity: 0.5;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.05);
+    }
+}
+
+.user-popup .leaflet-popup-tip {
+    background: var(--secondary);
+    box-shadow: 0 2px 10px rgba(0, 78, 137, 0.3);
+}
+
+.user-popup .leaflet-popup-close-button {
+    background: rgba(247, 184, 1, 0.2);
+    color: var(--accent) !important;
+    border: 2px solid rgba(247, 184, 1, 0.3);
+}
+
+.user-popup .leaflet-popup-close-button:hover {
+    background: var(--accent);
+    color: var(--dark) !important;
+    transform: rotate(90deg) scale(1.1);
+    border-color: var(--accent);
+}
+
+.popup-user-location {
+    padding: 24px 28px;
+    text-align: center;
+    min-width: 220px;
+    position: relative;
+}
+
+/* Effet d'étoiles scintillantes en arrière-plan */
+.popup-user-location::before {
+    content: '✨';
+    position: absolute;
+    top: 10px;
+    left: 15px;
+    font-size: 1.2rem;
+    animation: twinkle 2s ease-in-out infinite;
+    opacity: 0.7;
+}
+
+.popup-user-location::after {
+    content: '✨';
+    position: absolute;
+    bottom: 10px;
+    right: 15px;
+    font-size: 1rem;
+    animation: twinkle 2s ease-in-out infinite 0.5s;
+    opacity: 0.7;
+}
+
+@keyframes twinkle {
+    0%, 100% {
+        opacity: 0.3;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.2);
+    }
+}
+
+.user-location-icon {
+    font-size: 3rem;
+    margin-bottom: 12px;
+    animation: bounce-rotate 2s ease-in-out infinite;
+    display: inline-block;
+    filter: drop-shadow(0 4px 8px rgba(247, 184, 1, 0.5));
+}
+
+@keyframes bounce-rotate {
+    0%, 100% {
+        transform: translateY(0) rotate(0deg);
+    }
+    25% {
+        transform: translateY(-10px) rotate(-5deg);
+    }
+    75% {
+        transform: translateY(-10px) rotate(5deg);
+    }
+}
+
+.user-location-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 8px;
+    font-family: "Momo Trust Display", sans-serif;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    background: linear-gradient(135deg, white, var(--accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.user-location-subtitle {
+    font-size: 0.85rem;
+    color: rgba(247, 184, 1, 0.95);
+    font-weight: 600;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
 .hero h1 {
-    font-size: 3.2rem; /* Réduit de 4rem */
-    margin-bottom: 15px; /* Réduit de 20px */
+    font-size: 3.2rem;
+    margin-bottom: 20px;
     font-weight: 400;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    text-shadow: 2px 2px 8px rgba(0,0,0,0.4);
     letter-spacing: -0.02em;
+    line-height: 1.1;
+    text-align: center;
 }
 
 .hero p {
-    font-size: 1.2rem; /* Réduit de 1.5rem */
-    margin-bottom: 30px; /* Réduit de 40px */
-    max-width: 550px; /* Réduit de 600px */
+    font-size: 1.1rem;
+    margin-bottom: 30px;
     opacity: 0.95;
+    text-align: center;
 }
 
 /* Hero Label - Above H1 */
 .hero-label {
     display: inline-block;
-    background: rgba(247, 184, 1, 0.2);
+    background: rgba(247, 184, 1, 0.25);
     color: var(--accent);
     padding: 8px 20px;
     border-radius: 50px;
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     font-weight: 600;
     letter-spacing: 0.5px;
     text-transform: uppercase;
@@ -360,43 +561,47 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Hero Description - More specific than p */
 .hero-description {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     margin-bottom: 25px;
-    max-width: 600px;
-    margin-left: auto;
-    margin-right: auto;
     opacity: 0.95;
     line-height: 1.6;
+    text-align: center;
 }
 
 /* Hero Stats - Quick Info Pills */
 .hero-stats {
     display: flex;
-    justify-content: center;
-    gap: 15px;
+    justify-content: center; /* Centré */
+    gap: 12px;
     margin-bottom: 30px;
     flex-wrap: wrap;
 }
 
 .hero-stats span {
-    background: rgba(255, 255, 255, 0.15);
+    background: rgba(255, 255, 255, 0.12);
     backdrop-filter: blur(10px);
-    padding: 10px 20px;
+    padding: 10px 18px;
     border-radius: 50px;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     font-weight: 500;
     border: 1px solid rgba(255, 255, 255, 0.2);
     transition: all 0.3s ease;
+    white-space: nowrap;
 }
 
 .hero-stats span:hover {
-    background: rgba(255, 255, 255, 0.25);
+    background: rgba(255, 255, 255, 0.22);
     transform: translateY(-2px);
+    border-color: var(--accent);
 }
 
 /* Hero Buttons Container */
 .hero-buttons {
     margin-top: 10px;
+    display: flex;
+    gap: 15px;
+    flex-direction: column;
+    width: 100%; /* Prend toute la largeur disponible */
 }
 
 /* CTA Buttons */
@@ -404,22 +609,23 @@ h1, h2, h3, h4, h5, h6 {
     display: inline-block;
     background: var(--primary);
     color: white;
-    padding: 18px 50px;
-    font-size: 1.2rem;
+    padding: 16px 40px;
+    font-size: 1.05rem;
     font-weight: 600;
     font-family: "Stack Sans Headline", sans-serif;
     text-decoration: none;
     border-radius: 50px;
     transition: all 0.3s ease;
-    box-shadow: 0 10px 30px rgba(255, 107, 53, 0.4);
-    margin: 10px;
+    box-shadow: 0 8px 25px rgba(255, 107, 53, 0.4);
+    margin: 0;
     letter-spacing: 0.01em;
     border: 2px solid transparent;
+    text-align: center;
 }
 
 .cta-button:hover {
     transform: translateY(-3px);
-    box-shadow: 0 15px 40px rgba(255, 107, 53, 0.5);
+    box-shadow: 0 12px 35px rgba(255, 107, 53, 0.6);
     background: #FF8354;
 }
 
@@ -432,7 +638,8 @@ h1, h2, h3, h4, h5, h6 {
 .cta-button.secondary:hover {
     background: var(--accent);
     color: var(--dark);
-    box-shadow: 0 15px 40px rgba(247, 184, 1, 0.4);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 35px rgba(247, 184, 1, 0.5);
 }
 
 /* Features Section */
@@ -975,8 +1182,8 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Use Cases Section */
 .use-cases {
-    background: linear-gradient(135deg, var(--secondary) 0%, var(--dark) 100%);
-    color: white;
+    background: #ffffff; /* Fond blanc */
+    color: var(--text); /* Texte foncé pour le contraste */
     padding: 80px 20px;
     position: relative;
     overflow: hidden;
@@ -990,7 +1197,7 @@ h1, h2, h3, h4, h5, h6 {
     right: -10%;
     width: 500px;
     height: 500px;
-    background: radial-gradient(circle, rgba(255, 107, 53, 0.15) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(255, 107, 53, 0.08) 0%, transparent 70%);
     border-radius: 50%;
 }
 
@@ -1000,6 +1207,7 @@ h1, h2, h3, h4, h5, h6 {
     margin-bottom: 60px;
     position: relative;
     z-index: 1;
+    color: var(--secondary); /* Titre en bleu */
 }
 
 .use-case-grid {
@@ -1013,19 +1221,19 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .use-case-card {
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(0, 78, 137, 0.8); /* Fond bleu semi-transparent */
     padding: 40px 30px;
     border-radius: 20px;
-    backdrop-filter: blur(10px);
     text-align: center;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    border: 2px solid rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(255, 255, 255, 0.2);
     cursor: pointer;
     position: relative;
     overflow: hidden;
     display: flex;
     flex-direction: column;
     align-items: center;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
 }
 
 /* Image de fond floue pour chaque carte */
@@ -1039,7 +1247,7 @@ h1, h2, h3, h4, h5, h6 {
     background-size: cover;
     background-position: center;
     filter: blur(2px);
-    opacity: 0.5;
+    opacity: 0.3; /* Plus visible pour mieux voir l'image */
     z-index: 0;
     transition: all 0.4s ease;
 }
@@ -1063,7 +1271,7 @@ h1, h2, h3, h4, h5, h6 {
 /* Au hover, l'image devient un peu plus visible */
 .use-case-card:hover::after {
     filter: blur(6px);
-    opacity: 0.25;
+    opacity: 0.4; /* Plus visible au hover */
 }
 
 /* Effet de brillance au hover */
@@ -1086,10 +1294,10 @@ h1, h2, h3, h4, h5, h6 {
 
 .use-case-card:hover {
     transform: translateY(-10px) scale(1.02);
-    background: rgba(255, 255, 255, 0.15);
+    background: rgba(0, 78, 137, 0.95); /* Bleu plus opaque au hover */
     border-color: var(--accent);
     box-shadow: 
-        0 20px 40px rgba(0, 0, 0, 0.3),
+        0 20px 40px rgba(0, 0, 0, 0.25),
         0 0 30px rgba(247, 184, 1, 0.3);
 }
 
@@ -1105,17 +1313,21 @@ h1, h2, h3, h4, h5, h6 {
     align-items: center;
     justify-content: center;
     line-height: 1.3;
+    color: #ffffff; /* Titre en blanc */
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
 .use-case-card:hover h3 {
-    color: var(--accent);
+    color: var(--primary); /* Orange au hover */
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
 }
 
 .use-case-card p {
     position: relative;
     z-index: 2;
     line-height: 1.6;
-    opacity: 0.9;
+    color: rgba(255, 255, 255, 0.95); /* Texte blanc */
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
 }
 
 /* Tech Stack Section */
@@ -1262,60 +1474,136 @@ footer a:hover {
 
 /* Mobile responsive */
 @media (max-width: 768px) {
-    /* Hero Section mobile - ULTRA COMPACT */
+    /* Hero Section mobile - BOTTOM SHEET DESIGN */
     .hero {
         min-height: 100vh;
-        padding: 50px 10px; /* Réduit de 60px 15px */
+        padding: 0; /* Pas de padding pour que la carte prenne tout l'espace */
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end; /* Pousse le contenu en bas */
     }
 
     .hero-content {
-        padding: 22px 15px; /* Réduit de 25% (était 30px 20px) */
-        backdrop-filter: blur(5px);
-        background: rgba(0, 78, 137, 0.9);
-        margin: 0 5px; /* Réduit de 10px */
-        border-radius: 12px; /* Réduit */
+        padding: 20px 18px 25px 18px;
+        background: rgba(0, 78, 137, 0.95);
+        margin: 0;
+        margin-top: -10vh; /* Chevauche la carte de 10% de la hauteur de l'écran */
+        border-radius: 25px 25px 0 0;
+        box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.3);
+        position: relative;
+        width: 100%;
+        max-width: 100%;
+        overflow: hidden;
+        /* Animation d'entrée douce */
+        animation: slideUpBottom 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        /* Force le bon rendu des coins arrondis */
+        -webkit-mask-image: -webkit-radial-gradient(white, black);
+        mask-image: radial-gradient(white, black);
+        transform: translateZ(0);
+        will-change: transform;
+    }
+    
+    /* Indicateur de swipe en haut de la carte */
+    .hero-content::before {
+        content: '';
+        position: absolute;
+        top: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 40px;
+        height: 4px;
+        background: rgba(255, 255, 255, 0.4);
+        border-radius: 2px;
+    }
+    
+    @keyframes slideUpBottom {
+        from {
+            transform: translateY(100%);
+            opacity: 0;
+        }
+        to {
+            transform: translateY(0);
+            opacity: 1;
+        }
     }
 
     .hero h1 {
-        font-size: 1.5rem; /* Réduit de 25% (était 2rem) */
-        line-height: 1.2;
-        margin-bottom: 10px; /* Réduit */
+        font-size: 1.8rem; /* Plus gros maintenant qu'on a de la place */
+        line-height: 1.1;
+        margin-bottom: 8px;
+        margin-top: 5px; /* Espace après le swipe indicator */
     }
     
-    .hero p {
-        font-size: 0.85rem; /* Réduit de 25% (était 1rem) */
-        margin-bottom: 20px; /* Réduit de 25% (était 30px) */
+    .hero-label {
+        padding: 6px 14px !important;
+        font-size: 0.7rem !important;
+        margin-bottom: 10px !important;
+    }
+    
+    .hero-description {
+        font-size: 0.9rem !important; /* Plus lisible */
+        margin-bottom: 12px !important;
+        opacity: 0.95 !important;
     }
 
-    /* Boutons CTA empilés */
-    .hero-content > div:first-of-type {
+    /* Stats hero - en ligne horizontale */
+    .hero-stats {
+        gap: 6px !important;
+        margin-bottom: 15px !important;
+        justify-content: center;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+    }
+    
+    .hero-stats span {
+        padding: 7px 10px !important;
+        font-size: 0.7rem !important;
+        white-space: nowrap;
+        flex-shrink: 0;
+    }
+    
+    /* Boutons CTA en ligne (côte à côte) */
+    .hero-buttons {
         display: flex;
-        flex-direction: column;
-        gap: 10px; /* Réduit de 15px */
+        flex-direction: row !important; /* Côte à côte */
+        gap: 10px !important;
         align-items: stretch;
-        max-width: 50%;
-        margin: 0 auto; /* Centre le conteneur */
+        max-width: 100%;
+        margin: 0 auto;
     }
 
-    .cta-button {
-        padding: 12px 24px; /* Réduit de 25% (était 15px 30px) */
-        font-size: 0.9rem; /* Réduit */
-        width: 100%;
-        margin: 0;
+    .hero-buttons .cta-button {
+        padding: 12px 16px !important;
+        font-size: 0.85rem !important;
+        flex: 1;
+        margin: 0 !important;
+        white-space: nowrap;
+    }
+    
+    .hero-buttons .cta-button.secondary {
+        flex: 0.9; /* Légèrement plus petit */
     }
 
-    /* Texte sous les boutons plus petit */
-    .hero-content > div:last-of-type {
-        margin-top: 20px !important; /* Réduit de 25% (était 30px) */
-    }
 
-    .hero-content > div:last-of-type p {
-        font-size: 0.65rem !important; /* Réduit encore */
-    }
-
-    /* Carte démonstration mobile */
+    /* Carte démonstration mobile - PLEINE VISIBILITÉ */
     #demo-map {
-        opacity: 0.6;
+        opacity: 1 !important;
+        filter: none !important; /* Aucun filtre */
+    }
+    
+    /* Overlay hero transparent pour laisser voir la carte */
+    .hero-overlay {
+        background: transparent !important;
+        display: none; /* Complètement désactivé sur mobile */
+    }
+    
+    /* Contrôles Leaflet positionnés pour ne pas être cachés par la bottom sheet */
+    .hero .leaflet-control-container .leaflet-top {
+        top: 20px !important;
+    }
+    
+    .hero .leaflet-control-container .leaflet-right {
+        right: 15px !important;
     }
 
     /* Notification map loader mobile */

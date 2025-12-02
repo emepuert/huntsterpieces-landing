@@ -283,9 +283,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Fonction pour récupérer les POI via Overpass API (OpenStreetMap)
-    async function fetchPointsOfInterest(lat, lng, radius = 5000, minRadius = 2000) {
+    async function fetchPointsOfInterest(lat, lng, radius = 3500, minRadius = 0) {
         // Requête ULTRA-simplifiée pour éviter les timeouts
-        // On cherche jusqu'à 5km (radius), puis on filtrera pour exclure < 2km
+        // On cherche jusqu'à 3.5km (radius), pas de minimum
         const query = `
             [out:json][timeout:20];
             (
@@ -324,13 +324,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 const data = await response.json();
                 const allElements = data.elements || [];
                 
-                // Filtrer pour garder uniquement les POI entre minRadius (1km) et radius (3km)
+                // Filtrer pour garder uniquement les POI jusqu'à radius (3.5km)
                 const filteredElements = allElements.filter(poi => {
                     const distance = calculateDistance(lat, lng, poi.lat, poi.lon);
                     return distance >= minRadius && distance <= radius;
                 });
                 
-                console.log(`✅ ${allElements.length} POI trouvés, ${filteredElements.length} dans la zone 2-5km via ${url.split('//')[1].split('/')[0]}`);
+                console.log(`✅ ${allElements.length} POI trouvés, ${filteredElements.length} dans la zone 0-3.5km via ${url.split('//')[1].split('/')[0]}`);
                 return filteredElements;
             } catch (error) {
                 console.warn(`⚠️ ${url.split('//')[1].split('/')[0]} failed:`, error.message);
@@ -820,7 +820,16 @@ document.addEventListener('DOMContentLoaded', () => {
                                 iconSize: [20, 20],
                                 iconAnchor: [10, 10]
                             })
-                        }).addTo(mapInstance).bindPopup('📍 Vous êtes ici !');
+                        }).addTo(mapInstance).bindPopup(`
+                            <div class="popup-user-location">
+                                <div class="user-location-icon">📍</div>
+                                <div class="user-location-title">Vous êtes ici !</div>
+                                <div class="user-location-subtitle">Position actuelle</div>
+                            </div>
+                        `, {
+                            className: 'custom-popup user-popup',
+                            closeButton: true
+                        });
                         
                         // Utiliser POI cachés avec langue
                         await createMarkersFromPOI(cached.pois.slice(0, 15), mapInstance, language, false);
@@ -846,7 +855,16 @@ document.addEventListener('DOMContentLoaded', () => {
                             iconSize: [20, 20],
                             iconAnchor: [10, 10]
                         })
-                    }).addTo(mapInstance).bindPopup('📍 Vous êtes ici !');
+                    }).addTo(mapInstance).bindPopup(`
+                        <div class="popup-user-location">
+                            <div class="user-location-icon">📍</div>
+                            <div class="user-location-title">Vous êtes ici !</div>
+                            <div class="user-location-subtitle">Position actuelle</div>
+                        </div>
+                    `, {
+                        className: 'custom-popup user-popup',
+                        closeButton: true
+                    });
                     
                 // Récupérer les POI (avec timeout de 18 secondes max)
                 const poisPromise = fetchPointsOfInterest(lat, lng);
@@ -964,7 +982,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 iconSize: [20, 20],
                 iconAnchor: [10, 10]
             })
-        }).addTo(mapInstance).bindPopup(`📍 ${defaultLocation.city} (position par défaut)`);
+        }).addTo(mapInstance).bindPopup(`
+            <div class="popup-user-location">
+                <div class="user-location-icon">📍</div>
+                <div class="user-location-title">${defaultLocation.city}</div>
+                <div class="user-location-subtitle">Position par défaut</div>
+            </div>
+        `, {
+            className: 'custom-popup user-popup',
+            closeButton: true
+        });
         
         loadFallbackPOI(mapInstance, defaultLocation.lang);
         hideLoader();
@@ -983,7 +1010,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 iconSize: [20, 20],
                 iconAnchor: [10, 10]
             })
-        }).addTo(mapInstance).bindPopup('📍 Paris (position par défaut)');
+        }).addTo(mapInstance).bindPopup(`
+            <div class="popup-user-location">
+                <div class="user-location-icon">📍</div>
+                <div class="user-location-title">Paris</div>
+                <div class="user-location-subtitle">Position par défaut</div>
+            </div>
+        `, {
+            className: 'custom-popup user-popup',
+            closeButton: true
+        });
         
         loadFallbackPOI(mapInstance, 'fr');
         hideLoader();
