@@ -906,6 +906,11 @@ document.addEventListener('DOMContentLoaded', () => {
                         console.log('⚠️ Erreur géolocalisation inconnue → Fallback sur Paris');
                         loadFallbackMapParis(); // Fallback classique Paris
                     }
+                },
+                {
+                    enableHighAccuracy: false,
+                    timeout: 3000, // 10 secondes max pour obtenir une réponse
+                    maximumAge: 300000 // Accepter une position vieille de 5 min
                 }
             );
         } else {
@@ -967,70 +972,83 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     // Fallback : Carte avec localisation par défaut basée sur la langue du navigateur (uniquement si refus explicite)
-    function loadFallbackMap() {
-        const defaultLocation = getDefaultLocationByLanguage();
-        console.log(`🌍 Langue détectée: ${navigator.language} → Localisation par défaut: ${defaultLocation.city}, ${defaultLocation.country}`);
-        
-        const [lat, lng] = defaultLocation.coords;
-        const mapInstance = initMap(lat, lng);
-        
-        // Ajouter un marqueur pour indiquer que c'est une position par défaut
-        L.marker([lat, lng], {
-            icon: L.divIcon({
-                className: 'default-location-marker',
-                html: '<div style="background: #FF9800; width: 20px; height: 20px; border-radius: 50%; border: 3px solid white; box-shadow: 0 2px 10px rgba(0,0,0,0.3);"></div>',
-                iconSize: [20, 20],
-                iconAnchor: [10, 10]
-            })
-        }).addTo(mapInstance).bindPopup(`
-            <div class="popup-user-location">
-                <div class="user-location-icon">📍</div>
-                <div class="user-location-title">${defaultLocation.city}</div>
-                <div class="user-location-subtitle">Position par défaut</div>
-            </div>
-        `, {
-            className: 'custom-popup user-popup',
-            closeButton: true
-        });
-        
-        loadFallbackPOI(mapInstance, defaultLocation.lang);
-        hideLoader();
+    async function loadFallbackMap() {
+        try {
+            const defaultLocation = getDefaultLocationByLanguage();
+            console.log(`🌍 Langue détectée: ${navigator.language} → Localisation par défaut: ${defaultLocation.city}, ${defaultLocation.country}`);
+            
+            const [lat, lng] = defaultLocation.coords;
+            const mapInstance = initMap(lat, lng);
+            
+            // Ajouter un marqueur pour indiquer que c'est une position par défaut
+            L.marker([lat, lng], {
+                icon: L.divIcon({
+                    className: 'default-location-marker',
+                    html: '<div style="background: #FF9800; width: 20px; height: 20px; border-radius: 50%; border: 3px solid white; box-shadow: 0 2px 10px rgba(0,0,0,0.3);"></div>',
+                    iconSize: [20, 20],
+                    iconAnchor: [10, 10]
+                })
+            }).addTo(mapInstance).bindPopup(`
+                <div class="popup-user-location">
+                    <div class="user-location-icon">📍</div>
+                    <div class="user-location-title">${defaultLocation.city}</div>
+                    <div class="user-location-subtitle">Position par défaut</div>
+                </div>
+            `, {
+                className: 'custom-popup user-popup',
+                closeButton: true
+            });
+            
+            loadFallbackPOI(mapInstance, defaultLocation.lang);
+            hideLoader();
+        } catch (error) {
+            console.error('Erreur dans loadFallbackMap:', error);
+            // Si erreur, fallback sur Paris
+            loadFallbackMapParis();
+        }
     }
     
     // Fallback classique : Carte de Paris (pour erreurs techniques ou géolocalisation non supportée)
     function loadFallbackMapParis() {
-        console.log('🗼 Fallback classique sur Paris');
-        const mapInstance = initMap(48.8566, 2.3522);
-        
-        // Marqueur classique pour Paris
-        L.marker([48.8566, 2.3522], {
-            icon: L.divIcon({
-                className: 'default-location-marker',
-                html: '<div style="background: #FF9800; width: 20px; height: 20px; border-radius: 50%; border: 3px solid white; box-shadow: 0 2px 10px rgba(0,0,0,0.3);"></div>',
-                iconSize: [20, 20],
-                iconAnchor: [10, 10]
-            })
-        }).addTo(mapInstance).bindPopup(`
-            <div class="popup-user-location">
-                <div class="user-location-icon">📍</div>
-                <div class="user-location-title">Paris</div>
-                <div class="user-location-subtitle">Position par défaut</div>
-            </div>
-        `, {
-            className: 'custom-popup user-popup',
-            closeButton: true
-        });
-        
-        loadFallbackPOI(mapInstance, 'fr');
-        hideLoader();
+        try {
+            console.log('🗼 Fallback classique sur Paris');
+            const mapInstance = initMap(48.8566, 2.3522);
+            
+            // Marqueur classique pour Paris
+            L.marker([48.8566, 2.3522], {
+                icon: L.divIcon({
+                    className: 'default-location-marker',
+                    html: '<div style="background: #FF9800; width: 20px; height: 20px; border-radius: 50%; border: 3px solid white; box-shadow: 0 2px 10px rgba(0,0,0,0.3);"></div>',
+                    iconSize: [20, 20],
+                    iconAnchor: [10, 10]
+                })
+            }).addTo(mapInstance).bindPopup(`
+                <div class="popup-user-location">
+                    <div class="user-location-icon">📍</div>
+                    <div class="user-location-title">Paris</div>
+                    <div class="user-location-subtitle">Position par défaut</div>
+                </div>
+            `, {
+                className: 'custom-popup user-popup',
+                closeButton: true
+            });
+            
+            loadFallbackPOI(mapInstance, 'fr');
+            hideLoader();
+        } catch (error) {
+            console.error('Erreur critique dans loadFallbackMapParis:', error);
+            hideLoader();
+        }
     }
     
     // POI statiques de Paris (fallback)
     function loadFallbackPOI(mapInstance, language = 'fr') {
-        // Utiliser les traductions de la langue détectée
-        const fallbackTypeConfig = translations[language] || translations['fr'];
-        
-        const checkpoints = [
+        try {
+            // Utiliser les traductions de la langue détectée
+            const fallbackTypeConfig = translations[language] || translations['fr'];
+            console.log(`📍 Chargement des POI statiques en langue: ${language}`);
+            
+            const checkpoints = [
         {
             coords: [48.8584, 2.2945], // Tour Eiffel
             name: "🗼 La Dame de Fer",
@@ -1183,6 +1201,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 maxWidth: 280
             });
         });
+        
+        console.log(`✅ ${checkpoints.length} POI statiques chargés avec succès`);
+        } catch (error) {
+            console.error('Erreur lors du chargement des POI statiques:', error);
+        }
     }
     
     // Lancer le chargement de la carte dynamique
