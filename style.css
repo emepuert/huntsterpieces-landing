@@ -1427,6 +1427,11 @@ footer a:hover {
     .desktop-screen {
         height: 300px;
     }
+    
+    .desktop-screen img {
+        object-fit: contain; /* Affiche l'image entière sans la couper */
+        object-position: top; /* Aligne en haut pour voir le header */
+    }
 
     .annotation-card {
         max-width: 180px;
@@ -1465,6 +1470,11 @@ footer a:hover {
 
     .desktop-screen {
         height: 350px;
+    }
+    
+    .desktop-screen img {
+        object-fit: contain; /* Affiche l'image entière sans la couper */
+        object-position: top; /* Aligne en haut pour voir le header */
     }
 
     .annotation-card {
@@ -1702,6 +1712,11 @@ footer a:hover {
 
     .desktop-screen {
         height: 300px;
+    }
+    
+    .desktop-screen img {
+        object-fit: contain; /* Affiche l'image entière sans la couper */
+        object-position: top; /* Aligne en haut pour voir le header */
     }
 
     /* Cache les lignes sur mobile */
