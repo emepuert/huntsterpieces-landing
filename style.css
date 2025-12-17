@@ -1064,7 +1064,8 @@ h1, h2, h3, h4, h5, h6 {
 .desktop-screen img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
+    object-position: top;
 }
 
 /* Annotation Cards */
